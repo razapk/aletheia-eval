@@ -19,4 +19,5 @@ target_link_libraries(
     opencv_imgproc
     opencv_videoio
     grpcclient
+    pthread
 )

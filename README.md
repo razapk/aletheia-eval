@@ -12,7 +12,12 @@ To get triton server and nginx server up,
 ```
 docker compose up -d tritonserver nginx-rtmp
 ```
-To run client,
+Start video streaming. You can do it using OBS Studio setting server to `rtmp://localhost:1935/live` and key to `stream` (depending upon env). To run client,
 ```
 docker compose up --build client
 ```
+
+# Code Explanation
+The client creates a streaming threads that gets frames from the RTML stream, pushes them into the queue and post the semaphore. The processing threads wait for the semaphore to be posted, and then pops the frame from the queue and processes it. The queue is made thread safe using a mutex.
+
+Once frame a is popped, it is cropped, resized down to model size and converted to a float tensor. This float tensor is passed to Triton server, and response is received. The cycle continues. Most of the pointers are wrapped in `unique_ptr` and `shared_ptr` to avoid memory leaks.

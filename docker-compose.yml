@@ -37,3 +37,4 @@ services:
       STREAM: rtmp://nginx-rtmp:1935/live/stream
       SERVER: tritonserver:8001
       MODEL_NAME: resnet50
+      WORKERS: 2
