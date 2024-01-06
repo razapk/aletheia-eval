@@ -134,11 +134,11 @@ void *StreamingThread(void *ptr)
     // Setup up stream and other suff
     ThreadConfig *config = (ThreadConfig *)ptr;
     cv::VideoCapture capture(url);
-    cv::Mat frame;
 
     // Start infinite capture loop
     while (true)
     {
+        cv::Mat frame;
         // Get a frame
         if (!capture.read(frame))
         {

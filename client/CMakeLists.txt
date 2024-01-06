@@ -4,13 +4,14 @@ add_executable(client client.cpp)
 target_include_directories(
     client
     PRIVATE
-    /usr/include/opencv4
-    /workspace/install/include
+    /usr/local/include/opencv4
+    /workspace/triton/include
 )
 target_link_directories(
     client
     PRIVATE
-    /workspace/install/lib
+    /usr/local/lib
+    /workspace/triton/lib
 )
 target_link_libraries(
     client
