@@ -1,0 +1,39 @@
+version: "2.3"
+
+
+services:
+  ############ TRITON SERVER
+  tritonserver:
+    restart: always
+    image: nvcr.io/nvidia/tritonserver:23.05-py3
+    volumes:
+      - ./models:/models
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      TZ: "Asia/Karachi"
+    shm_size: 1024m
+    ipc: host
+    pid: host
+    cpuset: 0,1,2
+    ports:
+      - 8003:8000
+      - 8001:8001
+      - 8002:8002
+    expose:
+      - 8003
+      - 8002
+      - 8001
+    command: "tritonserver --log-verbose=0 --model-control-mode=poll --repository-poll-secs=5 --model-repository=/models --exit-on-error=false"
+  
+  nginx-rtmp:
+    restart: always
+    image: tiangolo/nginx-rtmp
+    ports:
+      - 1935:1935      
+
+  client:
+    build: ./client
+    environment:
+      STREAM: rtmp://nginx-rtmp:1935/live/stream
+      SERVER: tritonserver:8001
+      MODEL_NAME: resnet50
