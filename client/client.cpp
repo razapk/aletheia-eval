@@ -51,9 +51,12 @@ int main()
         return -1;
     }
 
+    // See, I can crop image
+    cv::Mat cropped = frame(cv::Rect(0, 0, frame.cols / 2, frame.rows / 2));
+
     // Preprocess image
     cv::Mat resized;
-    cv::resize(frame, resized, cv::Size(input_shape[2], input_shape[1]));
+    cv::resize(cropped, resized, cv::Size(input_shape[2], input_shape[1]));
     cv::cvtColor(resized, resized, cv::COLOR_BGR2RGB);
 
     int data_size = input_shape[1] * input_shape[2] * input_shape[3];
