@@ -10,7 +10,7 @@ Place ONNX model file at `model/resnet50/1/model.onnx`.
 ## How to run
 To get triton server and nginx server up,
 ```
-docker compose up -d tritonserver
+docker compose up -d tritonserver nginx-rtmp
 ```
 To run client,
 ```
